@@ -14,8 +14,12 @@ import { Paper } from "@mui/material";
 import axios from "axios";
 import ErrorMessage from "./ErrorMessage";
 import Validation from "./Validation";
+import { useDispatch } from "react-redux";
+import {UserLoginData} from "../../Redux/User/UserSlice";
 
 function UserLogin() {
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = createTheme();
 
@@ -41,16 +45,22 @@ function UserLogin() {
 
       await axios
         .post("/users/login", { email, password }, config)
-        .then((data) => {
+        .then(async(data) => {
           localStorage.setItem("userInfo", JSON.stringify(data));
-          const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+          let userInfo = localStorage.getItem("userInfo");
           console.log("userInfo : ", userInfo);
-          if (userInfo) {
+          
+          userInfo = await JSON.parse(userInfo)
+          console.log("userrrrr:",userInfo.data);
+          //exported from userSlice
+          dispatch(
+            UserLoginData({
+              userDetails:userInfo.data.user
+            })
+
+          )
             navigate("/");
-            console.log("login data :", data);
-          } else {
-            navigate("/");
-          }
+      
         });
     } catch (backendError) {
       SetBackendError(backendError.response.data.message);

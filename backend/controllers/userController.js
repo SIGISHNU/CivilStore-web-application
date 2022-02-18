@@ -1,6 +1,9 @@
 const db = require("../Config/connection");
 const collection = require("../Config/collections");
 const bcrypt = require("bcrypt");
+const {uploadFile} = require('../s3')
+const multer = require('multer')
+const upload = multer().single('profilepic')
 
 module.exports = {
 
@@ -77,7 +80,19 @@ module.exports = {
       }
 
     }
+    },
+
+    changeProfilePic:async(req,res)=>
+    {
+      
+      let pic = req.file;
+      const result = await uploadFile(pic)
+      console.log("result",result);
+      res.send({imagePath:`${result.Key}`})
+      
     }
+
+    
 
   
 };

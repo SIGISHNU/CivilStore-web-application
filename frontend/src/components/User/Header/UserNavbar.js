@@ -1,9 +1,13 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
-import './Header.css'
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
-function Header() {
+
+function UserNavbar() {
+
+  let userDetails = useSelector((state)=> state.userDetails.user)
   return( 
     <Navbar variant='dark' style={{background:"black"}} >
     <Container >
@@ -11,13 +15,15 @@ function Header() {
       <Navbar.Collapse id="basic-navbar-nav" >
         <Nav className="ml-auto">
           <Nav.Link href="#home">Home</Nav.Link>
-          <NavDropdown title="Profile" id="basic-nav-dropdown">
-            <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+          <NavDropdown title={userDetails ? userDetails.name : "Profile"}  id="basic-nav-dropdown">
+          {userDetails ?<NavDropdown.Item href="/profile">Profile</NavDropdown.Item> : ""} 
+           {userDetails ?<NavDropdown.Item href="/login">Logout</NavDropdown.Item> :<NavDropdown.Item href="/login">Login</NavDropdown.Item> } 
           </NavDropdown>
           <NavDropdown title="Machineries" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Small Machineries</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">Heavy Machineries</NavDropdown.Item>
-           
+            <Link to='/smallitem'><NavDropdown.Item href=''>Small Machineries</NavDropdown.Item></Link>
+            <Link to='/heavyitem'>
+            <NavDropdown.Item href="">Heavy Machineries</NavDropdown.Item>
+            </Link>
           </NavDropdown>
           <NavDropdown title="Items" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Booked Items</NavDropdown.Item>
@@ -31,4 +37,4 @@ function Header() {
   </Navbar>
   )}
 
-export default Header;
+export default UserNavbar;

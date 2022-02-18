@@ -1,19 +1,26 @@
 import React from 'react';
-import './UserHome.css'
 import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
 import TopHeader from '../TopHeader/TopHeader';
-import banner from '../Images/construction banner.png'
+import banner from '../Images/construction banner.png';
+import './UserHome.css'
+import UserNavbar from '../Header/UserNavbar';
+
 
 
 function UserHome() {
+
+  //taking state from useSlice
+//   let userDetails = useSelector((state)=> state.userDetails.user)
+// console.log('userDetails',userDetails);
+
   return (
       <>
       <TopHeader/>
-      <Header/>
-
+     <UserNavbar/>
+     
       <main style={{minHeight:"82vh"}}> 
-          <img src={banner} className='image-fluid' style={{width:"100%",height:"auto"}}></img>   
+          <img src={banner} className='image-fluid' style={{width:"100%",height:"auto"}}></img>  
+          
     </main>
 
     <Footer/>
